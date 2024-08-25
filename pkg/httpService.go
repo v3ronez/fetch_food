@@ -1,4 +1,4 @@
-package HttpService
+package pkg
 
 import (
 	"errors"
