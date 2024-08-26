@@ -18,7 +18,7 @@ import (
 type config struct {
 	serverPort int
 	envMode    string
-	db         *dbConfig
+	db         dbConfig
 }
 
 type dbConfig struct {
@@ -39,27 +39,16 @@ type application struct {
 	db      *sql.DB
 }
 
-var cfg *config
-var dbConf *dbConfig
-
 func main() {
 	if err := initEnv(); err != nil {
 		panic("env dont loading correctly")
 	}
-	cfg = getConfig()
-	fmt.Sprintf("%+v", cfg)
-	os.Exit(1)
+	cfg := getConfig()
 	app, err := initApp(cfg)
 	if err != nil {
 		slog.Error(err.Error())
 	}
-	db, err := initDB(app.cfg)
-	if err != nil {
-		slog.Error(err.Error())
-
-	}
-	app.db = db
-	os.Exit(1)
+	_ = app
 	// // TODO: move this to a another service
 	// url := "https://challenges.coode.sh/food/data/json/index.txt"
 	// httpClient := HttpService.New()
@@ -70,8 +59,13 @@ func main() {
 	// fmt.Println(string(response))
 }
 func initApp(conf *config) (*application, error) {
+	db, err := initDB(conf)
+	if err != nil {
+		return nil, err
+	}
 	app := &application{
 		cfg: conf,
+		db:  db,
 	}
 	return app, nil
 }
@@ -79,15 +73,16 @@ func initApp(conf *config) (*application, error) {
 func getConfig() *config {
 	serverPort, _ := strconv.Atoi(os.Getenv("SERVER_PORT"))
 	port, _ := strconv.Atoi(os.Getenv("DB_PORT"))
-	dbConf.port = port
-	dbConf.dbName = os.Getenv("DB_NAME")
-	dbConf.host = os.Getenv("DB_HOST")
-	dbConf.user = os.Getenv("DB_USER")
-	dbConf.password = os.Getenv("DB_PASSWORD")
-	dbConf.sslMode = os.Getenv("DB_SSL_MODE")
-	dbConf.maxIndleTime = "15m"
-	dbConf.maxIdleConnect = 25
-	dbConf.maxOpenConnect = 25
+	dbConf := dbConfig{
+		port:           port,
+		dbName:         os.Getenv("DB_NAME"),
+		host:           os.Getenv("DB_HOST"),
+		user:           os.Getenv("DB_USER"),
+		password:       os.Getenv("DB_PASSWORD"),
+		sslMode:        os.Getenv("DB_SSL_MODE"),
+		maxIndleTime:   "15m",
+		maxIdleConnect: 25,
+		maxOpenConnect: 25}
 	return &config{
 		serverPort: serverPort,
 		db:         dbConf,
