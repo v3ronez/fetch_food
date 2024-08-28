@@ -44,11 +44,10 @@ func main() {
 		panic("env dont loading correctly")
 	}
 	cfg := getConfig()
-	app, err := initApp(cfg)
+	_, err := initApp(cfg)
 	if err != nil {
 		slog.Error(err.Error())
 	}
-	_ = app
 	// // TODO: move this to a another service
 	// url := "https://challenges.coode.sh/food/data/json/index.txt"
 	// httpClient := HttpService.New()
