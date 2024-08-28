@@ -36,6 +36,6 @@ type FoodModel struct {
 	DB *sql.DB
 }
 
-func (f *FoodModel) Get() (Food, error) {
+func (f *FoodModel) FindByCode(code int32) (Food, error) {
 	return Food{}, nil
 }

@@ -13,6 +13,7 @@ import (
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/v3ronez/fetch_food/internal/data"
+	"github.com/v3ronez/fetch_food/pkg"
 )
 
 type config struct {
@@ -44,18 +45,14 @@ func main() {
 		panic("env dont loading correctly")
 	}
 	cfg := getConfig()
-	_, err := initApp(cfg)
+	app, err := initApp(cfg)
 	if err != nil {
 		slog.Error(err.Error())
 	}
-	// // TODO: move this to a another service
-	// url := "https://challenges.coode.sh/food/data/json/index.txt"
-	// httpClient := HttpService.New()
-	// response, err := httpClient.Get(url)
-	// if err != nil {
-	// 	slog.Error("Somethings happen: ", err)
-	// }
-	// fmt.Println(string(response))
+	_ = app
+	httpClient := pkg.NewHttpClient()
+	foodService := pkg.NewFoodService(httpClient)
+	foodService.CheckForNewFiles()
 }
 func initApp(conf *config) (*application, error) {
 	db, err := initDB(conf)

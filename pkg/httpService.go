@@ -19,7 +19,7 @@ type HttpStatus struct {
 	msg  string
 }
 
-func New() *HttpClientService {
+func NewHttpClient() *HttpClientService {
 	return &HttpClientService{
 		client: &http.Client{},
 	}
