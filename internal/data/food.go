@@ -7,29 +7,29 @@ import (
 
 // s/\<./\u&/g --> capitalize all words selecteds
 type Food struct {
-	Code             int32
-	Status           string
-	Imported_t       time.Time
-	Url              string
-	Creator          string
-	Created_t        int32
-	Last_modified_t  time.Time
-	Product_name     string
-	Quantity         string
-	Brands           string
-	Categories       string
-	Labels           string
-	Cities           string
-	Purchase_places  string
-	Stores           string
-	Ingredients_text string
-	Traces           string
-	Serving_size     string
-	Serving_quantity float32
-	Nutriscore_score int32
-	Nutriscore_grade string
-	Main_category    string
-	Image_url        string
+	Code            int32     `json:"code"`
+	Status          string    `json:"status"`
+	ImportedAt      time.Time `json:"imported_at"`
+	Url             string    `json:"url"`
+	Creator         string    `json:"creator"`
+	CreatedAt       int32     `json:"created_at"`
+	LastModifiedAt  time.Time `json:"last_modified_at"`
+	ProductName     string    `json:"product_name"`
+	Quantity        string    `json:"quantity"`
+	Brands          string    `json:"brands"`
+	Categories      string    `json:"categories"`
+	Labels          string    `json:"labels"`
+	Cities          string    `json:"cities"`
+	PurchasePlaces  string    `json:"purchase_places"`
+	Stores          string    `json:"stores"`
+	IngredientsText string    `json:"ingredients_text"`
+	Traces          string    `json:"traces"`
+	ServingSize     string    `json:"serving_size"`
+	ServingQuantity float32   `json:"serving_quantity"`
+	NutriscoreScore int32     `json:"nutriscore_score"`
+	NutriscoreGrade string    `json:"nutriscore_grade"`
+	MainCategory    string    `json:"main_category"`
+	ImageuRrl       string    `json:"image_url"`
 }
 
 type FoodModel struct {
